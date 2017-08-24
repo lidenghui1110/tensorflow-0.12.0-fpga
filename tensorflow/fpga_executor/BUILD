@@ -12,6 +12,7 @@ cc_library(
     hdrs = [
         "fpga_wrapper.h",
     ],
+    linkopts = ["-lOpenCL"],
     visibility = ["//visibility:public"],
     alwayslink = 1,
 )

@@ -37,7 +37,7 @@ class FPGADeviceFactory : public DeviceFactory {
     if (iter != options.config.device_count().end()) {
       n = iter->second;
     }
-	size_t allocated_memory = 209715200LL;//200M
+	size_t allocated_memory = 0x1000000;//209715200LL;//200M
     for (int i = 0; i < n; i++) {
       string name = strings::StrCat(name_prefix, "/fpga:", i);
       devices->push_back(new FPGADevice(

@@ -16,21 +16,56 @@ the allocator of the device.
 //#include "tensorflow/core/platform/types.h"
 #include<cstddef>
 #include<iostream>
+#include<CL/cl.h>
+
 namespace tensorflow {
 
 typedef long long int64;
 
+class CLInfo {
+public:
+	CLInfo(){
+		ret = clGetPlatformIDs(1, &platform_id, &ret_num_platforms);
+		//std::cout<<"clGetPlatformIDs : "<<ret<<std::endl;
+		ret = clGetDeviceIDs(platform_id, CL_DEVICE_TYPE_CPU, 1, &device_id, &ret_num_devices);
+		//std::cout<<"clGetDeviceIDs : "<<ret<<std::endl;
+		context = clCreateContext(NULL, 1, &device_id, NULL, NULL, &ret);
+		//std::cout<<"clCreateContext : "<<ret<<std::endl;
+		command_queue = clCreateCommandQueue(context, device_id, 0, &ret);
+		//std::cout<<"clCreateCommandQueue : "<<ret<<std::endl;
+		device_base = NULL;
+	}
+	
+	cl_platform_id platform_id;
+	cl_device_id device_id;
+	cl_context context;
+	cl_command_queue command_queue;
+	cl_mem device_base;
+	cl_uint ret_num_devices;
+	cl_uint ret_num_platforms;
+	cl_int ret;
+};
+
 class FPGAWrapper {	
 public:	
-	FPGAWrapper(int id) : device_id(id){}
+	FPGAWrapper(int id) : device_id(id){
+		//std::cout<<"new fpga wrapper"<<std::endl;
+		CLEnv = new CLInfo();
+		//std::cout<<"CONSTRUCT RET : "<<CLEnv->ret<<std::endl;
+	}
 	~FPGAWrapper(){}
 	void* FPGAMalloc(size_t length);
 	void FPGAFree(void* ptr);
 	void memcpyHostToDevice(void* dst_ptr, const void* src_ptr, int64 total_bytes) const;
 	void memcpyDeviceToHost(void* dst_ptr, const void* src_ptr, int64 total_bytes) const;
+	
+	void* host_base;
+	CLInfo* CLEnv;
 private:
 	int device_id;
 };
+
+
 
 } // namespace tensorflow
 

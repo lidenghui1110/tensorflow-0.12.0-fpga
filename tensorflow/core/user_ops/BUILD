@@ -17,7 +17,13 @@ tf_custom_op_library(
 tf_custom_op_library(
     name = "vec_add_opencl.so",
     srcs = ["vec_add_opencl.cc"],
-    linkopt = ["-lOpenCL"]
+    linkopt = ["-lOpenCL"],
+)
+
+tf_custom_op_library(
+    name = "vec_add_opencl_v2.so",
+    srcs = ["vec_add_opencl_v2.cc"],
+    linkopt = ["-lOpenCL"],
 )
 
 # cc_library(

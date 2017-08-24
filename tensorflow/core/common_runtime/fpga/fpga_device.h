@@ -57,8 +57,8 @@ class FPGADevice : public LocalDevice {
 
  private:
   Allocator* cpu_allocator_;  // Not owned
-  FPGABFCAllocator* fpga_allocator_;
   FPGAWrapper* fpga_device_;
+  FPGABFCAllocator* fpga_allocator_;
   FPGADeviceContext* device_context_;
 };
 

@@ -50,6 +50,9 @@ limitations under the License.
 #include "tensorflow/core/platform/thread_annotations.h"
 #include "tensorflow/core/platform/types.h"
 
+#include "tensorflow/fpga_executor/fpga_wrapper.h"
+
+
 namespace Eigen {
 struct ThreadPoolDevice;
 struct GpuDevice;
@@ -897,6 +900,9 @@ class OpKernelContext {
     return *device()->eigen_sycl_device();
   }
 #endif
+  const FPGAWrapper& fpga_device()	const {
+	return *device()->fpga_wrapper_device();
+  }
   template <typename EigenDeviceType>
   const EigenDeviceType& eigen_device() const;
 

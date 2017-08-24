@@ -67,7 +67,7 @@ struct AllocatorStats {
 class Allocator {
  public:
   // Align to 32 byte boundary.
-  static constexpr size_t kAllocatorAlignment = 32;
+  static constexpr size_t kAllocatorAlignment = 128;//original 32;
 
   virtual ~Allocator();
 
